@@ -1,4 +1,5 @@
--- main 
+local json = require("json")
+
 Class = {}
 Class.__index = Class -- metatable
 -- Class["__index"] = Class
@@ -19,11 +20,19 @@ end
 
 local function main()
     -- test
+    local a = {}
+    
     local object1 = Class:new(123, "hdjdfkd")
     local object2 = Class:new("456", "wfevwej")
 
+    a[1] = object1
+    a[2] = object2
+
     object1:method()
-    object2:method()
+
+    for i=1,2 do
+        a[i]:method()
+    end
 end
 
 main()
