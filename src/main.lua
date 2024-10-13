@@ -75,14 +75,90 @@ function Logic:new()
     return logic
 end
 
--- character sorting method
+-- character sorting method, see sorting_logic.png
 function Logic:sort(character)
-    self.universes.sw:addChar(character) -- for testing
-    -- TODO: add actual logic
+    -- helper to check if traits not null
+    local function hasVals(tbl)
+        return tbl ~= nil and #tbl > 0
+    end
+
+    if character.planet ~= nil then
+        if character.planet == "Kashyyyk" or character.planet == "Endor" then
+            self.universes.sw:addChar(character)
+        elseif character.planet == "Asgard" then
+            self.universes.mu:addChar(character)
+        elseif character.planet == "Betelgeuse" or character.planet == "Vogsphere" then
+            self.universes.hh:addChar(character)
+        elseif character.planet == "Earth" then
+            self.universes.lotr:addChar(character)
+        end
+    elseif not hasVals(character.traits) then
+        if character.isHumanoid ~= nil then
+            if character.isHumanoid then
+                if character.age ~= nil then
+                    if character.age > 5000 then
+                        self.universes.lotr:addChar(character)
+                    elseif character.age > 400 then
+                        self.universes.mu:addChar(character)
+                    elseif character.age > 200 then
+                        self.universes.sw:addChar(character)
+                    end
+                end
+            elseif character.age ~= nil then
+                if character.age > 200 then
+                    self.universes.sw:addChar(character)
+                else
+                    self.universes.hh:addChar(character)
+                end
+            end
+        elseif character.age ~= nil then
+            if character.age > 5000 then
+                self.universes.lotr:addChar(character)
+            elseif character.age > 400 then
+                self.universes.mu:addChar(character)
+            elseif character.age > 200 then
+                self.universes.sw:addChar(character)
+            end
+        end
+    elseif table.has(character.traits, "POINTY_EARS") then
+        self.universes.lotr:addChar(character)
+    elseif table.has(character.traits, "HAIRY") then
+        self.universes.sw:addChar(character)
+    elseif table.has(character.traits, "EXTRA_ARMS") or table.has(character.traits, "EXTRA_HEAD") then
+        self.universes.hh:addChar(character)
+    elseif table.has(character.traits, "GREEN") then
+        self.universes.hh:addChar(character)
+    elseif table.has(character.traits, "BULKY") then
+        if character.isHumanoid ~= nil then
+            if character.isHumanoid then
+                self.universes.lotr:addChar(character)
+            else
+                self.universes.hh:addChar(character)
+            end
+        end
+    elseif table.has(character.traits, "TALL") then
+        if character.age ~= nil then
+            if character.age > 5000 then
+                self.universes.lotr:addChar(character)
+            else
+                self.universes.mu:addChar(character)
+            end
+        end
+    end
+end
+
+-- check if value is in table
+function table.has(tbl, val)
+    for _, v in ipairs(tbl) do
+        if v == val then
+            return true
+        end
+    end
+    return false
 end
 
 local function main()
-    local file = io.open("input/test-input.json", "r")
+    local file = io.open("input/input.json", "r")
     if not file then
         print("couldn't open input file")
         return
@@ -106,7 +182,11 @@ local function main()
         logic:sort(character)
     end
 
+    -- print output
     logic.universes.sw:print()
+    logic.universes.mu:print()
+    logic.universes.hh:print()
+    logic.universes.lotr:print()
 
 end
 
