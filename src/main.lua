@@ -1,38 +1,53 @@
-local json = require("json")
+local json = require 'src.json'
 
-Class = {}
-Class.__index = Class -- metatable
--- Class["__index"] = Class
+-- character class
+Character = {}
+Character.__index = Character
 
-function Class:new(id, name)
-    local obj = {}
-    setmetatable(obj, Class) -- object constructor
-    obj.id = id
-    obj.name = name
-    return obj
+function Character:new(id, isHumanoid, planet, age, traits)
+    local char = {
+        id = id,
+        isHumanoid = isHumanoid,
+        planet = planet,
+        age = age,
+        traits = traits
+    }
+    setmetatable(char, Character) -- object constructor
+    return char
 end
 
--- method
-function Class:method()
-    print("id: " .. self.id)
-    print("Name: " .. self.name)
+-- temp function to turn object into table
+function Character:table()
+    return {
+        id = self.id,
+        isHumanoid = self.isHumanoid,
+        planet = self.planet,
+        age = self.age,
+        traits = self.traits
+    }
 end
 
 local function main()
-    -- test
-    local a = {}
-    
-    local object1 = Class:new(123, "hdjdfkd")
-    local object2 = Class:new("456", "wfevwej")
-
-    a[1] = object1
-    a[2] = object2
-
-    object1:method()
-
-    for i=1,2 do
-        a[i]:method()
+    local file = io.open("input/test-input.json", "r")
+    if not file then
+        print("couldn't open input file")
+        return
     end
+    local data = file:read("*a")
+    file:close()
+
+    local char_data = json.decode(data)
+    local characters = {}
+
+    for _, char in ipairs(char_data.input) do
+        local character = Character:new(
+            char.id, char.isHumanoid or nil, char.planet or nil, char.age or nil, char.traits or {}
+        )
+        table.insert(characters, character:table())
+    end
+
+    local test_output = json.encode(characters)
+    print(test_output)
 end
 
 main()
