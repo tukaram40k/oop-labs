@@ -4,6 +4,7 @@ local json = require 'src.json'
 Character = {}
 Character.__index = Character
 
+-- new() method
 function Character:new(id, isHumanoid, planet, age, traits)
     local char = {
         id = id,
@@ -12,20 +13,30 @@ function Character:new(id, isHumanoid, planet, age, traits)
         age = age,
         traits = traits
     }
-    setmetatable(char, Character) -- object constructor
+    setmetatable(char, Character)
     return char
 end
 
--- temp function to turn object into table
-function Character:table()
-    return {
-        id = self.id,
-        isHumanoid = self.isHumanoid,
-        planet = self.planet,
-        age = self.age,
-        traits = self.traits
+-- universe class
+Universe = {}
+Universe.__index = Universe
+
+-- new() method
+function Universe:new(name)
+    local universe = {
+        name = name,
+        characters = {}
     }
+    setmetatable(universe, Universe)
+    return universe
 end
+
+-- add character method
+function Universe:addChar(char)
+    table.insert(self.characters, char)
+end
+
+-- TODO: add universe:print method and test it
 
 local function main()
     local file = io.open("input/test-input.json", "r")
@@ -37,17 +48,8 @@ local function main()
     file:close()
 
     local char_data = json.decode(data)
-    local characters = {}
-
-    for _, char in ipairs(char_data.input) do
-        local character = Character:new(
-            char.id, char.isHumanoid or nil, char.planet or nil, char.age or nil, char.traits or {}
-        )
-        table.insert(characters, character:table())
-    end
-
-    local test_output = json.encode(characters)
-    print(test_output)
+    local parsed_data = char_data.input
+    
 end
 
 main()
