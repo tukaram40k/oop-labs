@@ -1,0 +1,54 @@
+{
+    "characters": [
+        {
+            "traits": [
+                "BLONDE",
+                "POINTY_EARS"
+            ],
+            "id": 5,
+            "planet": "Earth",
+            "age": 451,
+            "isHumanoid": true
+        },
+        {
+            "traits": [
+                "SHORT",
+                "BULKY"
+            ],
+            "id": 6,
+            "planet": "Earth",
+            "age": 124,
+            "isHumanoid": true
+        },
+        {
+            "id": 12,
+            "age": 7523,
+            "isHumanoid": true
+        },
+        {
+            "traits": [
+                "SHORT",
+                "BULKY"
+            ],
+            "id": 13,
+            "planet": "Earth"
+        },
+        {
+            "traits": [
+                "BLONDE",
+                "TALL"
+            ],
+            "id": 19,
+            "planet": "Earth",
+            "age": 451,
+            "isHumanoid": true
+        },
+        {
+            "traits": [
+                "BULKY"
+            ],
+            "id": 20,
+            "isHumanoid": true
+        }
+    ]
+}
