@@ -1,1 +1,32 @@
-{"characters":[{"id":2,"planet":"Asgard","traits":["BLONDE","TALL"],"age":2034,"isHumanoid":true},{"id":9,"planet":"Asgard","traits":["BLONDE","TALL"],"isHumanoid":true},{"id":16,"age":154,"traits":["BLONDE","TALL"],"isHumanoid":true}]}
+{
+    "characters": [
+        {
+            "traits": [
+                "BLONDE",
+                "TALL"
+            ],
+            "id": 2,
+            "planet": "Asgard",
+            "age": 2034,
+            "isHumanoid": true
+        },
+        {
+            "traits": [
+                "BLONDE",
+                "TALL"
+            ],
+            "id": 9,
+            "planet": "Asgard",
+            "isHumanoid": true
+        },
+        {
+            "traits": [
+                "BLONDE",
+                "TALL"
+            ],
+            "id": 16,
+            "age": 154,
+            "isHumanoid": true
+        }
+    ]
+}

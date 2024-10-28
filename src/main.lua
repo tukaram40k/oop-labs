@@ -54,7 +54,7 @@ function Universe:print()
             traits = char.traits
         })
     end
-    file:write(json.encode({characters = output}))
+    file:write(json.encode({ characters = output }))
     file:close()
 end
 
@@ -147,6 +147,97 @@ function Logic:sort(character)
     end
 end
 
+-- smarter sorting logic
+function Logic:smarter_sort(character)
+    -- table to store possible universes for each character
+    local possible_universe = {}
+
+    local function hasVals(tbl)
+        return tbl ~= nil and #tbl > 0
+    end
+
+    local function fromSW(character)
+        if ((character.planet) ~= nil and (character.planet ~= "Kashyyyk" and character.planet ~= "Endor"))
+            or (character.age ~= nil and character.age > 400)
+            or (character.isHumanoid ~= nil and character.isHumanoid)
+            or (hasVals(character.traits) and not (table.has(character.traits, "HAIRY")
+                or table.has(character.traits, "TALL") or table.has(character.traits, "SHORT")))
+        then
+            return
+        end
+        table.insert(possible_universe, "sw")
+    end
+    local function fromMU(character)
+        if (character.planet ~= nil and character.planet ~= "Asgard")
+            or (character.age ~= nil and character.age > 5000)
+            or (character.isHumanoid ~= nil and not character.isHumanoid)
+            or (hasVals(character.traits) and not (table.has(character.traits, "BLONDE")
+                or table.has(character.traits, "TALL")))
+        then
+            return
+        end
+        table.insert(possible_universe, "mu")
+    end
+    local function fromHH(character)
+        if (character.planet ~= nil and (character.planet ~= "Betelgeuse" and character.planet ~= "Vogsphere"))
+            or (character.age ~= nil and character.age > 200)
+            or (hasVals(character.traits) and not (table.has(character.traits, "GREEN")
+                or table.has(character.traits, "BULKY") or table.has(character.traits, "EXTRA_ARMS")
+                or table.has(character.traits, "EXTRA_HEAD")))
+        then
+            return
+        end
+        table.insert(possible_universe, "hh")
+    end
+    local function fromLOTR(character)
+        if (character.planet ~= nil and character.planet ~= "Earth")
+            or (character.isHumanoid ~= nil and not character.isHumanoid)
+            or (hasVals(character.traits) and not (table.has(character.traits, "SHORT")
+                or table.has(character.traits, "BULKY") or table.has(character.traits, "BLONDE")
+                or table.has(character.traits, "POINTY_EARS")))
+        then
+            return
+        end
+        table.insert(possible_universe, "lotr")
+    end
+
+    fromSW(character)
+    fromMU(character)
+    fromHH(character)
+    fromLOTR(character)
+
+    -- check for duplicate values
+    local function hasDupes(tbl)
+        local seen = {}
+        for _, value in ipairs(tbl) do
+            if seen[value] then
+                return true
+            end
+            seen[value] = true
+        end
+        return false
+    end
+
+    -- check if there are any unsorted characters
+    if hasDupes(possible_universe) or #possible_universe == 0 then
+        print("character id: " .. character.id .. " cannot be sorted")
+        return
+    else
+        if table.has(possible_universe, "sw") then
+            self.universes.sw:addChar(character)
+        end
+        if table.has(possible_universe, "mu") then
+            self.universes.mu:addChar(character)
+        end
+        if table.has(possible_universe, "hh") then
+            self.universes.hh:addChar(character)
+        end
+        if table.has(possible_universe, "lotr") then
+            self.universes.lotr:addChar(character)
+        end
+    end
+end
+
 -- check if value is in table
 function table.has(tbl, val)
     for _, v in ipairs(tbl) do
@@ -180,6 +271,9 @@ local function main()
             char.traits
         )
         logic:sort(character)
+
+        -- or with the smarter sort
+        -- logic:smarter_sort(character)
     end
 
     -- print output
@@ -187,7 +281,6 @@ local function main()
     logic.universes.mu:print()
     logic.universes.hh:print()
     logic.universes.lotr:print()
-
 end
 
 main()
