@@ -13,8 +13,8 @@ class Display
         else
             winner = m.model
         end
-        puts("Comparing size of \"" + @model + "\" with \"" + m.model + "\".")
-        puts("The \"" + winner + "\" monitor is bigger.")
+        puts("Comparing size of \"#{@model}\" with \"#{m.model}\".")
+        puts("The \"#{winner}\" monitor is bigger.")
     end
 
     def compare_sharpness(m)
@@ -23,7 +23,7 @@ class Display
         else
             winner = m.model
         end
-        puts("Comparing sharpness of \"" + @model + "\" with \"" + m.model + "\".")
+        puts("Comparing sharpness of \"#{@model}\" with \"#{m.model}\".")
         puts("The \"" + winner + "\" monitor is sharper.")
     end
 
