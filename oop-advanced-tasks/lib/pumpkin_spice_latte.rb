@@ -12,4 +12,10 @@ class PumpkinSpiceLatte < Cappuccino
         super
         puts("mg of pumpkin spice: #{@mg_of_pumpkin_spice}")
     end
+
+    def self.make_pumpkin_spice_latte(coffee_intensity, ml_of_milk, mg_of_pumpkin_spice)
+        beverage = self.new(coffee_intensity, ml_of_milk, mg_of_pumpkin_spice)
+        beverage.make_beverage
+        beverage
+    end
 end

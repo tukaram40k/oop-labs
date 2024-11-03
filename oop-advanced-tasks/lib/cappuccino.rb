@@ -12,4 +12,10 @@ class Cappuccino < Coffee
         super
         puts("ml of milk: #{@ml_of_milk}")
     end
+
+    def self.make_cappuccino(coffee_intensity, ml_of_milk)
+        beverage = self.new(coffee_intensity, ml_of_milk)
+        beverage.make_beverage
+        beverage
+    end
 end

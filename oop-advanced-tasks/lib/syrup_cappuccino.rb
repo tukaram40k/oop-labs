@@ -12,4 +12,10 @@ class SyrupCappuccino < Cappuccino
         super
         puts("Syrup type: #{@syrup_type}")
     end
+
+    def self.make_syrup_cappuccino(coffee_intensity, ml_of_milk, syrup_type)
+        beverage = self.new(coffee_intensity, ml_of_milk, syrup_type)
+        beverage.make_beverage
+        beverage
+    end
 end
