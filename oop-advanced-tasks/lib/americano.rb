@@ -1,4 +1,4 @@
-require_relative 'cappuccino'
+require_relative 'coffee'
 
 class Americano < Coffee
     attr_accessor :ml_of_water

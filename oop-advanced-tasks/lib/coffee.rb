@@ -10,16 +10,6 @@ class Coffee
         puts("Intensity: #{@coffee_intensity}")
     end
 
-    # def self.make_beverage(coffee_intensity)
-    #     beverage = self.new(coffee_intensity)
-    #     puts("Making #{beverage.name}...")
-    #     puts("Intensity set to #{beverage.coffee_intensity}")
-    #     unless beverage.coffee_intensity.nil?
-    #
-    #     end
-    #     beverage
-    # end
-
     def self.make_coffee(coffee_intensity)
         beverage = self.new(coffee_intensity)
         beverage.make_beverage
