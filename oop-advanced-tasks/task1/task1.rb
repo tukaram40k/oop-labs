@@ -1,5 +1,5 @@
 class Coffee
-    attr_accessor :name, :coffee_intensity # maybe not accessor ?
+    attr_accessor :name, :coffee_intensity
     def initialize(coffee_intensity)
         @name = 'Coffee'
         @coffee_intensity = coffee_intensity
