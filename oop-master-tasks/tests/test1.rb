@@ -1,8 +1,8 @@
-require_relative '../lib/main_queue'
+require_relative '../lib/simple_queue'
 
 # test if queue works
 
-q = MainQueue.new
+q = SimpleQueue.new
 q.enqueue('1')
 q.enqueue('two')
 q.enqueue('3')

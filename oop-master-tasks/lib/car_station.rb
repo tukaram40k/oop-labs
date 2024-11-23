@@ -3,11 +3,13 @@ require_relative 'dineable'
 require_relative 'simple_queue'
 
 class CarStation
-    attr_accessor :car_queue, :refuelable, :dineable
-    def initialize(refuelable, dineable)
+    attr_accessor :car_queue, :fuel_type, :restaurant_type, :refuelable, :dineable
+    def initialize(fuel_type, restaurant_type)
         @car_queue = SimpleQueue.new
-        @refuelable = Refuelable.new(refuelable) # TODO: test this crap
-        @dineable = Dineable.new(dineable)
+        @fuel_type = fuel_type
+        @restaurant_type = restaurant_type
+        @refuelable = Refuelable.new(fuel_type) # TODO: test this crap
+        @dineable = Dineable.new(restaurant_type)
     end
 
     def add_car(car)

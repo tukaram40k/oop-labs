@@ -1,12 +1,13 @@
 require 'json'
 require_relative '../lib/car_station'
-require_relative '../lib/main_queue'
+require_relative '../lib/simple_queue'
 require_relative '../lib/car'
 
 # test json parsing
 
 def get_cars(dir)
-    cars = []
+    cars = [] # pretend this is a queue
+
     jsons = Dir["#{dir}/*.json"]
     jsons.each do |json_file|
         json_contents = File.read(json_file)
