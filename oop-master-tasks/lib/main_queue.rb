@@ -1,4 +1,5 @@
 require_relative 'simple_queue'
+
 class MainQueue < SimpleQueue
     attr_accessor :elements
     def initialize

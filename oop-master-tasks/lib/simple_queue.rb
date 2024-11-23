@@ -9,7 +9,7 @@ class SimpleQueue
     end
 
     def dequeue
-        @elements.pop
+        @elements.shift
     end
 
     def empty?

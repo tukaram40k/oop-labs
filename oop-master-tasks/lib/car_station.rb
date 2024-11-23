@@ -15,10 +15,10 @@ class CarStation
     end
 
     def serve_cars # TODO: test this crap as well
-        @car_queue.elements.each do |car|
+        until @car_queue.empty? do
+            car = @car_queue.dequeue
             @refuelable.refuel(car)
             @dineable.serve_dinner(car)
-            @car_queue.dequeue
         end
     end
 end

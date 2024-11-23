@@ -1,18 +1,22 @@
 require_relative '../lib/main_queue'
 
-q = MainQueue.new
-q.enqueue('w')
-q.enqueue('w')
-q.enqueue('e')
-q.enqueue('w')
+# test if queue works
 
-puts(q.empty?)
-puts(q.size)
-q.elements.each do
-    puts(q.elements)
-    puts(" ")
+q = MainQueue.new
+q.enqueue('1')
+q.enqueue('two')
+q.enqueue('3')
+q.enqueue({"id": 4, "type": "ELECTRIC", "passengers": "PEOPLE", "isDining": false, "consumption": 13})
+
+puts("empty = #{q.empty?}")
+puts("size = #{q.size}")
+puts ''
+
+until q.empty? do
     x = q.dequeue
     puts(x)
 end
-puts(q.empty?)
-puts(q.size)
+
+puts ''
+puts("empty = #{q.empty?}")
+puts("size = #{q.size}")
