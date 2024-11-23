@@ -27,7 +27,7 @@ class Archive
             @robots += 1
         end
 
-        if car.is_dining == 'true' # TODO: test if bool or str
+        if car.is_dining
             @dining += 1
         else
             @not_dining += 1

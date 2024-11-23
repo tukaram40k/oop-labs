@@ -3,7 +3,7 @@ class Dineable
     def initialize(user_type)
         @user_type = user_type
     end
-    def serve_dinner(car_id)
-        puts("Serving dinner to #{@user_type} in car #{car_id}.")
+    def serve_dinner(car)
+        puts("Serving dinner to #{car.passengers} in car #{car.id}.")
     end
 end

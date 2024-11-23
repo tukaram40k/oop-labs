@@ -3,7 +3,7 @@ class Refuelable
     def initialize(type)
         @type = type
     end
-    def refuel (car_id)
-        puts("Refueling #{@type} car #{car_id}.")
+    def refuel (car)
+        puts("Refueling #{car.type} car #{car.id}.")
     end
 end

@@ -20,7 +20,8 @@ class CarStation
         until @car_queue.empty? do
             car = @car_queue.dequeue
             @refuelable.refuel(car)
-            @dineable.serve_dinner(car)
+            @dineable.serve_dinner(car) if car.is_dining
+            puts(car)
         end
     end
 end
