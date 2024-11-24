@@ -5,7 +5,8 @@ import time
 import shutil
 
 # Constants, change something here, the whole program changes:)
-OUTPUT_DIR = "queue"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_DIR = os.path.join(SCRIPT_DIR, "queue")
 NR_OF_GENERATIONS = 30  # TODO change back to 30
 MIN_WAIT = 500  # in ms
 MAX_WAIT = 3000  # in ms

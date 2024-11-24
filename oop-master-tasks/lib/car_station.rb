@@ -8,7 +8,7 @@ class CarStation
         @car_queue = SimpleQueue.new
         @fuel_type = fuel_type
         @restaurant_type = restaurant_type
-        @refuelable = Refuelable.new(fuel_type) # TODO: test this crap
+        @refuelable = Refuelable.new(fuel_type)
         @dineable = Dineable.new(restaurant_type)
     end
 
@@ -16,8 +16,18 @@ class CarStation
         @car_queue.enqueue(car)
     end
 
-    def serve_cars # TODO: test this crap as well
+    def serve_cars
         until @car_queue.empty? do
+            car = @car_queue.dequeue
+            @refuelable.refuel(car)
+            @dineable.serve_dinner(car) if car.is_dining
+            puts(car)
+        end
+    end
+
+    # serve only next car from queue
+    def serve_next_car
+        unless @car_queue.empty?
             car = @car_queue.dequeue
             @refuelable.refuel(car)
             @dineable.serve_dinner(car) if car.is_dining
