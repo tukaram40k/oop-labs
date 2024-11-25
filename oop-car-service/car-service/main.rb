@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'thread'
 require_relative 'lib/semaphore'
 require_relative 'lib/car_station'
 require_relative 'lib/file_scanner'
@@ -16,7 +17,8 @@ scan_delay = 1.75
 
 FileUtils.rm_rf(queue_dir) # clean generator input
 
-thread = Thread.new do
+# Start the Python generator script in a thread
+generator_thread = Thread.new do
     system("python #{generator_dir}")
 end
 
@@ -24,38 +26,49 @@ semaphore = Semaphore.new(queue_dir, stations)
 semaphore.set_car_serve_time(6)
 
 # start file scanners
-scaner1 = FileScanner.new('oop-car-service/queues/main_queue', 'oop-car-service/car-service/tests/logs', 'main_queue')
-scaner2 = FileScanner.new('oop-car-service/queues/stations/station1', 'oop-car-service/car-service/tests/logs', 'station1')
-scaner3 = FileScanner.new('oop-car-service/queues/stations/station2', 'oop-car-service/car-service/tests/logs', 'station2')
-scaner4 = FileScanner.new('oop-car-service/queues/stations/station3', 'oop-car-service/car-service/tests/logs', 'station3')
-scaner5 = FileScanner.new('oop-car-service/queues/stations/station4', 'oop-car-service/car-service/tests/logs', 'station4')
+scanners = [
+  FileScanner.new('oop-car-service/queues/main_queue', 'oop-car-service/car-service/tests/logs', 'main_queue'),
+  FileScanner.new('oop-car-service/queues/stations/station1', 'oop-car-service/car-service/tests/logs', 'station1'),
+  FileScanner.new('oop-car-service/queues/stations/station2', 'oop-car-service/car-service/tests/logs', 'station2'),
+  FileScanner.new('oop-car-service/queues/stations/station3', 'oop-car-service/car-service/tests/logs', 'station3'),
+  FileScanner.new('oop-car-service/queues/stations/station4', 'oop-car-service/car-service/tests/logs', 'station4'),
+]
 
-scaners = [scaner1, scaner2, scaner3, scaner4, scaner5]
+# Clear all scanner logs
+scanners.each(&:clear)
 
-scaners.each do |scaner|
-    scaner.clear
-end
+# Define threads for different processes
+threads = []
 
-# thread2 = Thread.new do
-#     loop do
-#         scaner1.log_files
-#         sleep(scan_delay)
-#         break if semaphore.stations_empty? and !thread.alive?
-#     end
-# end
-
-loop do
-    semaphore.get_cars
-    semaphore.distribute_cars
-    semaphore.serve_next_car
-
-    # log queue states
-    scaners.each do |scaner|
-        scaner.log_files
+# Thread for fetching and distributing cars
+threads << Thread.new do
+    loop do
+        semaphore.get_cars
+        semaphore.distribute_cars
+        break if semaphore.stations_empty? && !generator_thread.alive?
+        sleep(scan_delay)
     end
-
-    break if semaphore.stations_empty? and !thread.alive?
-    sleep(scan_delay)
 end
 
+# Thread for serving the next car
+threads << Thread.new do
+    loop do
+        semaphore.serve_next_car
+        break if semaphore.stations_empty? && !generator_thread.alive?
+    end
+end
+
+# Thread for logging scanner states
+threads << Thread.new do
+    loop do
+        scanners.each(&:log_files)
+        break if semaphore.stations_empty? && !generator_thread.alive?
+        sleep(scan_delay)
+    end
+end
+
+# Wait for all threads to finish
+threads.each(&:join)
+
+# Print final statistics
 semaphore.print_stats

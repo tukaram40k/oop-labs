@@ -71,19 +71,36 @@ class Semaphore
         until @queue.empty? do
             car = @queue.dequeue
 
-            processed = false
+            # station queue balancing
+            possible_stations = []
             @stations.each do |station|
                 if station.fuel_type == car.type and (station.restaurant_type == car.passengers or !car.is_dining)
-                    station.add_car(car)
-                    @archive.archive_info(car)
-                    processed = true
-                    break
+                    possible_stations << station
                 end
             end
-            unless processed
+
+            if possible_stations.empty?
                 puts "car #{car.id} could not be served"
                 @unprocessed_cars += 1
+            else
+                sorted_stations = possible_stations.sort_by {|station| station.car_queue.size}
+                sorted_stations[0].add_car(car)
+                @archive.archive_info(car)
             end
+
+            # processed = false
+            # @stations.each do |station|
+            #     if station.fuel_type == car.type and (station.restaurant_type == car.passengers or !car.is_dining)
+            #         station.add_car(car)
+            #         @archive.archive_info(car)
+            #         processed = true
+            #         break
+            #     end
+            # end
+            # unless processed
+            #     puts "car #{car.id} could not be served"
+            #     @unprocessed_cars += 1
+            # end
         end
     end
 
