@@ -47,6 +47,7 @@ class CarStation
 
     # serve only next car from queue
     def serve_next_car
+        sleep(2)
         unless @car_queue.empty?
             car = @car_queue.dequeue
             @refuelable.refuel(car)

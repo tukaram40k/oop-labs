@@ -102,6 +102,7 @@ class Semaphore
             #     @unprocessed_cars += 1
             # end
         end
+        sleep(@car_serve_time)
     end
 
     def serve_cars
@@ -110,7 +111,7 @@ class Semaphore
             station.serve_cars
             puts ''
         end
-        sleep(@car_serve_time)
+        sleep(2)
     end
 
     def serve_next_car

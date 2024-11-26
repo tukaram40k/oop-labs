@@ -34,10 +34,10 @@ def read_queue(folder_path):
 
 def update_data():
     while True:
-        # Update main queue
+        # update main queue
         data["main_queue"] = read_queue(MAIN_QUEUE_DIR)
 
-        # Update station queues
+        # update station queues
         stations = {}
         if os.path.exists(STATIONS_DIR):
             for station_name in sorted(os.listdir(STATIONS_DIR)):
@@ -55,7 +55,7 @@ def index():
 @app.route('/start-service', methods=['POST'])
 def start_service():
     global ruby_process
-    if ruby_process is None or ruby_process.poll() is not None:  # Check if process is not running
+    if ruby_process is None or ruby_process.poll() is not None:
         ruby_script_path = os.path.join('./oop-car-service/car-service/', 'main.rb')
         try:
             ruby_process = subprocess.Popen(['ruby', ruby_script_path])

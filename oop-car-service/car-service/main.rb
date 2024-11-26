@@ -23,7 +23,7 @@ generator_thread = Thread.new do
 end
 
 semaphore = Semaphore.new(queue_dir, stations)
-semaphore.set_car_serve_time(6)
+semaphore.set_car_serve_time(4)
 
 # start file scanners
 scanners = [
