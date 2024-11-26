@@ -13,11 +13,11 @@ stations = [
 
 queue_dir = 'oop-car-service/car-service/input/queue'
 generator_dir = 'oop-car-service/car-service/input/generator.py'
-scan_delay = 1.75
+scan_delay = 1
 
 FileUtils.rm_rf(queue_dir) # clean generator input
 
-# Start the Python generator script in a thread
+# start the generator
 generator_thread = Thread.new do
     system("python #{generator_dir}")
 end
@@ -37,10 +37,9 @@ scanners = [
 # Clear all scanner logs
 scanners.each(&:clear)
 
-# Define threads for different processes
 threads = []
 
-# Thread for fetching and distributing cars
+# for fetching cars
 threads << Thread.new do
     loop do
         semaphore.get_cars
@@ -50,7 +49,7 @@ threads << Thread.new do
     end
 end
 
-# Thread for serving the next car
+# for serving next car
 threads << Thread.new do
     loop do
         semaphore.serve_next_car
@@ -58,17 +57,14 @@ threads << Thread.new do
     end
 end
 
-# Thread for logging scanner states
+# for logging queue states
 threads << Thread.new do
     loop do
         scanners.each(&:log_files)
         break if semaphore.stations_empty? && !generator_thread.alive?
-        sleep(scan_delay)
+        sleep(1)
     end
 end
 
-# Wait for all threads to finish
 threads.each(&:join)
-
-# Print final statistics
 semaphore.print_stats
