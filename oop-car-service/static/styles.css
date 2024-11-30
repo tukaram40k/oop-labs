@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: rgba(70, 82, 186, 0.55);
+}
+
+h1 {
+    color: #333;
+}
+
+.queue {
+    margin-bottom: 20px;
+}
+
+.queue h2 {
+    color: #555;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.car {
+    margin-left: 20px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(70, 82, 186, 0.55);
+    border-radius: 50%;
+}
+
+.cars {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.main-container {
+    background: #fff;
+    border-radius: 15px;
+    width: 50%;
+    height: auto;
+    margin-top: 5%;
+    margin-inline: auto;
+}
+
+.element-container {
+    padding: 20px 40px 30px;
+}
+
+button {
+    background-color: rgba(70, 82, 186, 0.55);
+    border-radius: 5px;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.controls {
+    margin-inline: auto;
+    text-align: center;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Service Status</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="element-container">
+            <div class="controls">
+                <h1>Car Service Status</h1>
+                <button id="start-button">Start ruby script</button>
+            </div>
+
+            <div class="queue">
+                <h2>Main Queue:</h2>
+                <div class="cars">
+                    {% for _ in range(main_queue) %}
+                    <div class="car"></div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% for station, count in stations.items() %}
+            <div class="queue">
+                <h2>{{ station }}:</h2>
+                <div class="cars">
+                    {% for _ in range(count) %}
+                    <div class="car"></div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function refreshPage() {
+            setTimeout(() => {
+                location.reload();
+            }, 500);
+        }
+        document.addEventListener('DOMContentLoaded', refreshPage);
+
+        document.getElementById('start-button').addEventListener('click', () => {
+            fetch('/start-service', {
+                method: 'POST'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Service started successfully!');
+                    } else {
+                        alert('Failed to start service.');
+                    }
+                });
+        });
+    </script>
+</body>
+</html>

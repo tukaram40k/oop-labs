@@ -1,1 +1,7 @@
 .idea/
+.venv/
+oop-master-tasks/input/queue/
+oop-master-tasks/tests/logs/
+oop-car-service/car-service/tests/logs/
+oop-car-service/queues/
+oop-car-service/car-service/input/queue/
